@@ -14,8 +14,10 @@ export default function Trending({ trendingMovies }) {
 
   return (
     <div className="mt-10 mx-4 md:mx-10">
+      <div className='header flex justify-between'>
       <h1 className="text-2xl md:text-3xl mb-6 md:mb-10 font-semibold">Trending</h1>
-
+      <a className="text-blue-600" href='/trending'>See More  </a>
+      </div>
       <div className="h-auto min-h-[300px] md:min-h-[400px]">
         <Swiper
           spaceBetween={15}
@@ -44,6 +46,7 @@ export default function Trending({ trendingMovies }) {
         >
           {trendingMovies.map((trendingPoster, index) => (
             <SwiperSlide key={index} className="!h-auto pb-4">
+                <a href={`/movies/streaming/${trendingPoster.moviesTitle}`}>
               <div className="group relative h-0 pb-[150%] overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:z-10 hover:scale-105">
                 <img 
                   src={trendingPoster.posterUrls} 
@@ -57,6 +60,7 @@ export default function Trending({ trendingMovies }) {
                   </h3>
                 </div>
               </div>
+                </a>
             </SwiperSlide>
           ))}
         </Swiper>

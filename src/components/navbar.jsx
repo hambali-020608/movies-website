@@ -19,7 +19,7 @@ export default function NavBar() {
       <div className="navbar flex justify-between items-center px-4">
         {/* Logo and Mobile Menu Button */}
         <div className="flex items-center">
-          <a className="btn btn-ghost text-xl text-white font-bold">NontonKuy21</a>
+          <a className="btn btn-ghost text-xl text-white font-bold">NontonYuk21</a>
           
           {/* Mobile Menu Button - Hidden on desktop */}
           <button 
@@ -69,7 +69,6 @@ export default function NavBar() {
               handleSearch(new Event('submit')); // Contoh pemanggilan search
             }}
           >
-            <FiSearch size={20} />
           </button>
         </div>
       </div>
