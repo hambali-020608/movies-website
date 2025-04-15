@@ -1,2 +1,20 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+body {
+  @apply max-w-[100vw] overflow-x-hidden;
+}
+
+/* Container utama untuk membatasi lebar konten */
+.main-container {
+  @apply w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Atur Swiper/Slider agar tidak menyebabkan overflow */
+.swiper-container {
+  @apply overflow-visible;
+}
+
+.swiper-slide {
+  @apply w-auto; /* atau atur width yang spesifik */
+}
