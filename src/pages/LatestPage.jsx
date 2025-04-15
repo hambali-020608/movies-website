@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import NavBar from "../components/navbar";
 
-export default function TrendingPage() {
-  const [trending, setTrending] = useState([]);
+export default function LatestPage() {
+  const [Latest, setLatest] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -11,14 +11,14 @@ export default function TrendingPage() {
   const [pageBlock, setPageBlock] = useState(0);
 
   useEffect(() => {
-    const fetchTrending = async () => {
+    const fetchLatest = async () => {
       setLoading(true);
       try {
         const response = await fetch(
-          `https://profesor-api.vercel.app/api/movies/v1/trending?page=${currentPage}`
+          `https://profesor-api.vercel.app/api/movies/v1/latest?page=${currentPage}`
         );
         const data = await response.json();
-        setTrending(data.data);
+        setLatest(data.data);
         setHasNextPage(data.data.length === perPage);
       } catch (err) {
         setError("Failed to fetch movies.");
@@ -27,7 +27,7 @@ export default function TrendingPage() {
       }
     };
 
-    fetchTrending();
+    fetchLatest();
   }, [currentPage]);
 
   const handlePageClick = (page) => {
@@ -71,9 +71,9 @@ export default function TrendingPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10 bg-[#EBFAFF]">
-      <NavBar/>
+        <NavBar/>
       <h1 className="mt-10 text-4xl font-bold mb-8 text-center text-gray-900">
-        🎬 Trending Movies
+        🎬 Latest Movies
       </h1>
 
       {loading ? (
@@ -82,11 +82,12 @@ export default function TrendingPage() {
         </div>
       ) : error ? (
         <p className="text-red-500 text-center">{error}</p>
-      ) : trending.length > 0 ? (
+      ) : Latest.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-          {trending.map((movie) => (
+          {Latest.map((movie) => (
+            
             <a
-            href={`/movies/streaming/${movie.moviesTitle}`}
+                href={`/movies/streaming/${movie.moviesTitle}`}
               key={movie.id}
               className="bg-white shadow-lg rounded-xl overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl"
             >

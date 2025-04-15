@@ -19,11 +19,11 @@ export default function NavBar() {
       <div className="navbar flex justify-between items-center px-4">
         {/* Logo and Mobile Menu Button */}
         <div className="flex items-center">
-          <a className="btn btn-ghost text-xl text-white font-bold">NontonYuk21</a>
+          <a className="btn btn-ghost text-xl text-black font-bold">NontonYuk21</a>
           
           {/* Mobile Menu Button - Hidden on desktop */}
           <button 
-            className="md:hidden ml-2 text-white"
+            className="md:hidden ml-2 text-black"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
@@ -41,13 +41,13 @@ export default function NavBar() {
             <input
               type="text"
               placeholder="Search movies..."
-              className="w-full pl-10 pr-4 py-2 rounded-full bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50"
+              className="w-full pl-10 pr-4 py-2 rounded-full bg-black/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setIsSearchFocused(true)}
               onBlur={() => setIsSearchFocused(false)}
             />
-            <button type="submit" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white">
+            <button type="submit" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black">
               <FiSearch size={20} />
             </button>
           </form>
@@ -55,8 +55,9 @@ export default function NavBar() {
 
         {/* Desktop Navigation - Hidden on mobile */}
         <ul className="hidden md:flex menu menu-horizontal px-1">
-          <li><a className="text-white hover:bg-white/10">Movies</a></li>
-          <li><a className="text-white hover:bg-white/10">Series</a></li>
+          <li><a href='/' className="text-black hover:bg-white/10">Home</a></li>
+          <li><a href='/trending' className="text-black hover:bg-white/10">Trending</a></li>
+          <li><a href='/latest' className="text-black hover:bg-white/10">Latest</a></li>
         </ul>
 
         {/* Mobile Search Icon - Only visible on small screens */}
