@@ -75,7 +75,7 @@ export default function NavBar() {
           </div>
 
           {/* Mobile Menu Button and Search */}
-          <div className="flex md:hidden items-center space-x-3">
+          <div className="flex lg:hidden items-center space-x-3">
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-white p-2 focus:outline-none"
@@ -88,7 +88,7 @@ export default function NavBar() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-gray-900/95 backdrop-blur-lg pb-4">
+          <div className="md:hidden z-40 bg-gray-900/95 backdrop-blur-lg pb-4">
             {/* Mobile Search */}
             <form onSubmit={handleSearch} className="px-4 py-3">
               <div className="relative">
