@@ -14,7 +14,7 @@ export default function NavBar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md shadow-lg">
+    <nav className="max-w-[100%] fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md shadow-lg">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Logo and Mobile Menu Button */}
