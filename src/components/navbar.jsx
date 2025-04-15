@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { FiSearch, FiMenu, FiX } from 'react-icons/fi';
-import { Navigate } from 'react-router';
+import { FiSearch, FiMenu, FiX, FiHome, FiTrendingUp, FiClock } from 'react-icons/fi';
 
 export default function NavBar() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -9,98 +8,136 @@ export default function NavBar() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    window.location.href=`/movies/search?q=${encodeURIComponent(searchQuery)}`
-    // alert(`Searching for: ${searchQuery}`);
-    // Implement search functionality
+    if (searchQuery.trim()) {
+      window.location.href = `/movies/search?q=${encodeURIComponent(searchQuery)}`;
+    }
   };
 
   return (
-    <div className="fixed rounded-lg top-1 left-1/2 transform -translate-x-1/2 w-full max-w-screen-xl z-50 bg-transparent backdrop-blur-md bg-opacity-30 shadow-md">
-      <div className="navbar flex justify-between items-center px-4">
-        {/* Logo and Mobile Menu Button */}
-        <div className="flex items-center">
-          <a className="btn btn-ghost text-xl text-black font-bold">NontonYuk21</a>
-          
-          {/* Mobile Menu Button - Hidden on desktop */}
-          <button 
-            className="md:hidden ml-2 text-black"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-          </button>
-        </div>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md shadow-lg">
+      <div className="container mx-auto px-4">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo and Mobile Menu Button */}
+          <div className="flex items-center space-x-4">
+            <a href="/" className="text-white font-bold text-xl flex items-center">
+              <span className="hidden sm:inline">NontonYuk21</span>
+              <span className="sm:hidden">NontonYuk21</span>
+            </a>
+          </div>
 
-        {/* Search Bar - Hidden on mobile when menu is open */}
-        {!isMobileMenuOpen && (
+          {/* Search Bar - Desktop */}
           <form 
             onSubmit={handleSearch}
-            className={`relative transition-all duration-300 mx-2 ${
-              isSearchFocused ? 'w-64' : 'w-48'
-            } hidden sm:block`}
+            className={`hidden md:flex relative items-center transition-all duration-300 ${
+              isSearchFocused ? 'w-72' : 'w-56'
+            }`}
           >
             <input
               type="text"
-              placeholder="Search movies..."
-              className="w-full pl-10 pr-4 py-2 rounded-full bg-black/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50"
+              placeholder="Cari film..."
+              className="w-full pl-10 pr-4 py-2 rounded-full bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-primary/50"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setIsSearchFocused(true)}
               onBlur={() => setIsSearchFocused(false)}
             />
-            <button type="submit" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black">
-              <FiSearch size={20} />
+            <button 
+              type="submit" 
+              className="absolute left-3 text-white/80 hover:text-white transition-colors"
+            >
+              <FiSearch size={18} />
             </button>
           </form>
-        )}
 
-        {/* Desktop Navigation - Hidden on mobile */}
-        <ul className="hidden md:flex menu menu-horizontal px-1">
-          <li><a href='/' className="text-black hover:bg-white/10">Home</a></li>
-          <li><a href='/trending' className="text-black hover:bg-white/10">Trending</a></li>
-          <li><a href='/latest' className="text-black hover:bg-white/10">Latest</a></li>
-        </ul>
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-1">
+            <a 
+              href="/" 
+              className="px-4 py-2 text-white/80 hover:text-white flex items-center space-x-2 transition-colors"
+            >
+              <FiHome size={18} />
+              <span>Home</span>
+            </a>
+            <a 
+              href="/trending" 
+              className="px-4 py-2 text-white/80 hover:text-white flex items-center space-x-2 transition-colors"
+            >
+              <FiTrendingUp size={18} />
+              <span>Trending</span>
+            </a>
+            <a 
+              href="/latest" 
+              className="px-4 py-2 text-white/80 hover:text-white flex items-center space-x-2 transition-colors"
+            >
+              <FiClock size={18} />
+              <span>Terbaru</span>
+            </a>
+          </div>
 
-        {/* Mobile Search Icon - Only visible on small screens */}
-        <div className="sm:hidden flex items-center">
-          <button 
-            className="text-white p-2"
-            onClick={() => {
-              setIsMobileMenuOpen(false);
-              // Implement mobile search modal toggle here
-              handleSearch(new Event('submit')); // Contoh pemanggilan search
-            }}
-          >
-          </button>
+          {/* Mobile Menu Button and Search */}
+          <div className="flex md:hidden items-center space-x-3">
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-white p-2 focus:outline-none"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* Mobile Menu - Only visible when toggled */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-gray-900/95 backdrop-blur-sm w-full py-4 px-4">
-          <form onSubmit={handleSearch} className="mb-4">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search movies..."
-                className="w-full pl-10 pr-4 py-2 rounded-full bg-white/20 text-white placeholder-white/70 focus:outline-none"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <button type="submit" className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white">
-                <FiSearch size={20} />
-              </button>
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-gray-900/95 backdrop-blur-lg pb-4">
+            {/* Mobile Search */}
+            <form onSubmit={handleSearch} className="px-4 py-3">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Cari film..."
+                  className="w-full pl-10 pr-4 py-2 rounded-full bg-white/20 text-white placeholder-white/70 focus:outline-none"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <button 
+                  type="submit" 
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/80 hover:text-white transition-colors"
+                >
+                  <FiSearch size={18} />
+                </button>
+              </div>
+            </form>
+
+            {/* Mobile Navigation Links */}
+            <div className="flex flex-col space-y-1 px-2">
+              <a 
+                href="/" 
+                className="flex items-center space-x-3 px-4 py-3 text-white/90 hover:bg-white/10 rounded-lg transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <FiHome size={20} />
+                <span>Home</span>
+              </a>
+              <a 
+                href="/trending" 
+                className="flex items-center space-x-3 px-4 py-3 text-white/90 hover:bg-white/10 rounded-lg transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <FiTrendingUp size={20} />
+                <span>Trending</span>
+              </a>
+              <a 
+                href="/latest" 
+                className="flex items-center space-x-3 px-4 py-3 text-white/90 hover:bg-white/10 rounded-lg transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <FiClock size={20} />
+                <span>Terbaru</span>
+              </a>
             </div>
-          </form>
-          <ul className="space-y-3">
-            <li>
-              <a className="block text-white text-lg py-2 hover:bg-white/10 rounded px-2">Movies</a>
-            </li>
-            <li>
-              <a className="block text-white text-lg py-2 hover:bg-white/10 rounded px-2">Series</a>
-            </li>
-          </ul>
-        </div>
-      )}
-    </div>
+          </div>
+        )}
+      </div>
+    </nav>
   );
 }
