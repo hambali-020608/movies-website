@@ -1,8 +1,9 @@
 {
-    "version": 2,
-    "rewrites": [
-      { "source": "/movies/streaming/:slug*", "destination": "/" },
-      { "source": "/movies/search*", "destination": "/" },
-      { "source": "/(.*)", "destination": "/" }
-    ]
-  }
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
