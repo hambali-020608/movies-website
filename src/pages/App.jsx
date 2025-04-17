@@ -7,6 +7,7 @@ import Trending from '../components/trending'
 import Movies from '../components/Movies'
 import Latest from '../components/Latest'
 import Faq from '../components/Faq'
+import Footer from '../components/Footer'
 
 
 
@@ -39,7 +40,7 @@ function App() {
   })
 
   return (
-    <div className='bg-[#EBFAFF]'>
+    <div className='bg-[#d7f2fb]'>
       {/* {console.log(topMovies)} */}
       <NavBar/>    
   {console.log(topMovies)}
@@ -54,6 +55,7 @@ function App() {
         <Faq/>
         {/* <Movies/> */}
       </main>
+      <Footer/>
     </div>
   )
 }
