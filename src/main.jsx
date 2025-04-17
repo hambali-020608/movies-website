@@ -8,12 +8,14 @@ import StreamingMovie from './pages/Streaming.jsx'
 import SearchResult from './pages/SearchResult.jsx'
 import TrendingPage from './pages/TrendingPage.jsx'
 import LatestPage from './pages/LatestPage.jsx'
+import NotFound from './pages/NotFound.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>  
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />} />
+      <Route path="*" element={<NotFound />} />
       <Route path="/movies" element={<Movies />} />
       <Route path="/trending" element={<TrendingPage/>} />
       <Route path="/latest" element={<LatestPage/>} />
