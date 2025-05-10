@@ -41,7 +41,7 @@ function App() {
   return (
     <div className='bg-[#d7f2fb]'>
       {/* {console.log(topMovies)} */}
-      <NavBar/>    
+      <NavBar source='filmapik'/>    
   {console.log(topMovies)}
       <main>
         {topMovies ? (

@@ -38,7 +38,7 @@ function AppIndo() {
   return (
     <div className='bg-[#d7f2fb]'>
       {/* {console.log(topMovies)} */}
-      <NavBar/>    
+      <NavBar source='justtalk'/>    
   {/* {console.log(topMovies)} */}
       <main>
 

@@ -1,9 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { FaPlay, FaServer, FaUser, FaStar, FaCalendarAlt, FaClock } from 'react-icons/fa';
+import NavBar from '../components/navbar';
 
 const StreamingMovies = () => {
+  function slugify(str) {
+  return decodeURIComponent(str)        // ubah %20 jadi spasi, dll
+    .replace(/\((\d{4})\)/, '-$1')      // ubah (2024) → -2024
+    .replace(/&/g, '')                  // hilangkan &
+    .replace(/\s+/g, '-')               // ganti semua spasi jadi -
+    .replace(/[^a-z0-9\-]/gi, '')       // hapus semua karakter aneh
+    .replace(/-+/g, '-')                // gabungkan double/triple - jadi satu
+    .replace(/^-|-$/g, '')              // hapus tanda - di awal/akhir
+    .toLowerCase();                    // ubah jadi lowercase
+}
+
   const { slug } = useParams();
+  const cleanSlug = slugify(slug)
+.replace(/[^a-z0-9\-]/g, '');        // hilangkan semua kecuali huruf, angka, dan tanda minus
   const [movieData, setMovieData] = useState(null);
   const [selectedLink, setSelectedLink] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -14,7 +28,7 @@ const StreamingMovies = () => {
       try {
         setIsLoading(true);
         setError(null);
-        const response = await fetch(`https://profesor-api.vercel.app/api/movies/v1/download?slug=${slug}`);
+        const response = await fetch(`https://profesor-api.vercel.app/api/movies/v1/download?slug=${cleanSlug }`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch movie data');
@@ -64,7 +78,10 @@ const StreamingMovies = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
+      <NavBar/>
+      {console.log(movieData)}
       {/* Video Player Section */}
+      {console.log(cleanSlug)}
       <div className="relative aspect-video w-full max-w-7xl mx-auto bg-black">
         {selectedLink ? (
           <iframe

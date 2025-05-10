@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { FaPlay, FaServer, FaUser, FaStar, FaCalendarAlt, FaClock } from 'react-icons/fa';
+import NavBar from '../../components/navbar';
 
 const StreamingMovies = () => {
   const { slug } = useParams();
+  const cleanSlug = slug.replace(/[^a-z0-9\-]/g, '')
   const [movieData, setMovieData] = useState(null);
   const [selectedLink, setSelectedLink] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -64,6 +67,7 @@ const StreamingMovies = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
+      <NavBar/>
       {/* Video Player Section */}
       <div className="relative aspect-video w-full max-w-7xl mx-auto bg-black">
     

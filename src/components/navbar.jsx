@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FiSearch, FiMenu, FiX, FiHome, FiTrendingUp, FiClock } from 'react-icons/fi';
 
-export default function NavBar(source = 'filmapik') {
+export default function NavBar({source = 'filmapik'}) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
