@@ -45,7 +45,7 @@ function AppIndo() {
           <Hero Movies={LatestMovies}/>
 
         {/* <Trending trendingMovies={trendingMovies}/> */}
-        <Latest LatestMovies={LatestMovies}/>
+        <Latest LatestMovies={LatestMovies} source='justtalk'/>
         <Faq/>
         {/* <Movies/> */}
       </main>

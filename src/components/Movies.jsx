@@ -1,27 +1,27 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
+import MoviesCard from "./MoviesComponent/MoviesCard";
+import Headers from "./MoviesComponent/MoviesHeader";
+import MoviesSlide from "./MoviesComponent/MoviesSlide";
 
-// Import Swiper styles
-import 'swiper/css';
-
-export default function Movies(){
-    return(
-        <div className='mt-10 mx-10'>
-            <h1 className="text-3xl mb-10">Movies</h1>
-            <Swiper
-      spaceBetween={20}
-      slidesPerView={5}
-      onSlideChange={() => console.log('slide change')}
-      onSwiper={(swiper) => console.log(swiper)}
-    >
-      
-      <SwiperSlide><img src="/images/poster1.jpg" alt="" /></SwiperSlide>
-      <SwiperSlide><img src="/images/poster1.jpg" alt="" /></SwiperSlide>
-      <SwiperSlide><img src="/images/poster1.jpg" alt="" /></SwiperSlide>
-      <SwiperSlide><img src="/images/poster1.jpg" alt="" /></SwiperSlide>
-      <SwiperSlide><img src="/images/poster1.jpg" alt="" /></SwiperSlide>
-      <SwiperSlide><img src="/images/poster1.jpg" alt="" /></SwiperSlide>
-      
-    </Swiper>
+export default function Movies({Movies}) {
+    if (!LatestMovies || !LatestMovies.length) {
+        return (
+          <div className="mt-10 mx-4 md:mx-10 h-64 flex items-center justify-center">
+            Loading latest movies...
+          </div>
+        );
+      }
+    
+      return (
+        <div className="mx-4 md:mx-10">
+       <Headers title="Movies" url="/latest"/>
+          <div className="h-auto min-h-[300px] md:min-h-[400px]">
+           <MoviesSlide
+           movies={Movies}
+           renderSlide={(movie, index) => <MoviesCard movie={movie} index={index} />}
+           />
+          </div>
         </div>
-    )
+      );J
+    
+    
 }

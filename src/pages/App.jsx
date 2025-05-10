@@ -45,7 +45,7 @@ function App() {
   {console.log(topMovies)}
       <main>
         {topMovies ? (
-          <Hero topMovies={topMovies}/>
+          <Hero Movies={topMovies}/>
 
         ):'loading' }
 
