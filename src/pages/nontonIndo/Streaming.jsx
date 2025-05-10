@@ -14,7 +14,7 @@ const StreamingMovies = () => {
       try {
         setIsLoading(true);
         setError(null);
-        const response = await fetch(`https://profesor-api.vercel.app/api/movies/v1/download?slug=${slug}`);
+        const response = await fetch(`https://profesor-api.vercel.app/api/movies/v2/streaming?slug=${slug}`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch movie data');
@@ -66,34 +66,27 @@ const StreamingMovies = () => {
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Video Player Section */}
       <div className="relative aspect-video w-full max-w-7xl mx-auto bg-black">
-        {selectedLink ? (
+    
           <iframe
-            src={selectedLink}
+            src={movieData?.streamUrl}
             className="w-full h-full"
             frameBorder="0"
             allow="autoplay; encrypted-media; fullscreen"
             allowFullScreen
-            title={`${movieData.title} Player`}
+            title={`${movieData?.title} Player`}
           ></iframe>
-        ) : (
-          <div className="flex items-center justify-center h-full bg-gray-800">
-            <div className="text-center p-8">
-              <FaPlay className="mx-auto text-4xl text-gray-500 mb-4" />
-              <p className="text-xl">Select a server to start streaming</p>
-            </div>
-          </div>
-        )}
+      
       </div>
 
       {/* Server Selection */}
       <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="bg-gray-800 rounded-lg p-4 mb-6">
+        {/* <div className="bg-gray-800 rounded-lg p-4 mb-6">
           <h3 className="flex items-center text-lg font-semibold mb-3">
             <FaServer className="mr-2 text-blue-400" />
             Available Servers
           </h3>
           <div className="flex flex-wrap gap-2">
-            {movieData.links?.map((link, i) => (
+            {[1,2].map((link, i) => (
               <button
                 key={i}
                 onClick={() => setSelectedLink(link.url)}
@@ -108,7 +101,7 @@ const StreamingMovies = () => {
               </button>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* Movie Info Section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -121,7 +114,7 @@ const StreamingMovies = () => {
                 {movieData.rating && (
                   <span className="flex items-center text-yellow-400">
                     <FaStar className="mr-1" />
-                    {movieData.rating}
+                    {movieData.rating.value}
                   </span>
                 )}
                 {movieData.year && (
@@ -138,14 +131,14 @@ const StreamingMovies = () => {
                 )}
               </div>
 
-              <p className="text-gray-300 leading-relaxed mb-6">{movieData.synopsis}</p>
+              <p className="text-gray-300 leading-relaxed mb-6">{movieData.description}</p>
 
               {/* Genres */}
-              {movieData.genres?.length > 0 && (
+              {movieData.genre?.length > 0 && (
                 <div className="mb-6">
                   <h3 className="text-sm font-semibold text-gray-400 mb-2">GENRES</h3>
                   <div className="flex flex-wrap gap-2">
-                    {movieData.genres.map((genre, i) => (
+                    {movieData.genre.map((genre, i) => (
                       <span key={i} className="px-3 py-1 bg-gray-700 rounded-full text-sm">
                         {genre}
                       </span>
@@ -157,29 +150,7 @@ const StreamingMovies = () => {
           </div>
 
           {/* Cast Section */}
-          <div className="bg-gray-800 rounded-lg p-6 h-fit">
-            <h2 className="text-xl font-bold mb-4 flex items-center">
-              <FaUser className="mr-2 text-blue-400" />
-              Cast
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {movieData.actors?.map((actor, i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-3 bg-gray-700 p-3 rounded-lg hover:bg-gray-600 transition-colors"
-                >
-                  <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-blue-600 text-white font-bold">
-                    {actor.charAt(0)}
-                  </div>
-                  <div className="truncate">
-                    <h3 className="font-medium truncate">{actor}</h3>
-                    {/* Uncomment if you have role data */}
-                    {/* <p className="text-xs text-gray-400 truncate">{actor.role}</p> */}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+        
         </div>
       </div>
     </div>

@@ -1,11 +1,11 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-/* body {
-  @apply max-w-[100vw] overflow-x-hidden;
-  @apply max-h-[100vh] overflow-y-hidden;
+body {
+  /* @apply max-w-[100vw] overflow-x-hidden;
+  @apply max-h-[100vh] overflow-y-hidden; */
 
-} */
+}
 
 /* Container utama untuk membatasi lebar konten */
 .main-container {

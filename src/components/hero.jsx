@@ -4,12 +4,12 @@ import { EffectCoverflow, Autoplay } from "swiper/modules";
 import "swiper/css/effect-coverflow";
 import "swiper/css";
 
-export default function Hero({ topMovies }) {
+export default function Hero({ Movies,source='filmapik' }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  console.log(topMovies)
+  console.log(Movies)
 
   
-  if (!topMovies || !topMovies.length) {
+  if (!Movies || !Movies.length) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   }
 
@@ -26,7 +26,7 @@ export default function Hero({ topMovies }) {
         <div
           className="absolute inset-0 bg-cover bg-center transition-all duration-1000"
           style={{
-            backgroundImage: `url(${topMovies[activeIndex]?.posterUrls})`,
+            backgroundImage: `url(${Movies[activeIndex]?.posterUrls})`,
             filter: 'blur(8px) brightness(0.7)',
             transform: 'scale(1.1) translateZ(0)',
             backgroundSize: 'cover',
@@ -43,13 +43,13 @@ export default function Hero({ topMovies }) {
         <div className="flex flex-col lg:flex-row items-end gap-20">
           {/* Bagian Teks */}
           <div className="max-w-md text-white mb-0 lg:mb-28  text-center">
-            <h1 className="mb-5 text-4xl font-bold">{topMovies[activeIndex]?.moviesTitle}</h1>
+            <h1 className="mb-5 text-4xl font-bold">{Movies[activeIndex]?.moviesTitle}</h1>
             {/* <p className="mb-5 text-lg">
               Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi
               exercitationem quasi.
             </p> */}
             <div className="flex gap-4 justify-center">
-              <a href={`/movies/streaming/${topMovies[activeIndex]?.moviesTitle}`} className="btn btn-primary rounded-full px-6 py-2">
+              <a href={source == 'filmapik' ? `/movies/streaming/${Movies[activeIndex]?.moviesTitle}` : `/ny21-indo/movies/streaming/${Movies[activeIndex]?.moviesTitle}`} className="btn btn-primary rounded-full px-6 py-2">
                 Watch Movie
               </a>
               <button className="btn bg-transparent text-white border-white rounded-full px-6 py-2">
@@ -78,7 +78,7 @@ export default function Hero({ topMovies }) {
               onSlideChange={handleSlideChange}
               className="swiper-container"
             >
-              {topMovies.map((poster, index) => (
+              {Movies.map((poster, index) => (
                 <SwiperSlide key={index} className="swiper-slide">
                   <img 
                     src={poster.posterUrls} 

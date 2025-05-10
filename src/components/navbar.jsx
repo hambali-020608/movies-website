@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FiSearch, FiMenu, FiX, FiHome, FiTrendingUp, FiClock } from 'react-icons/fi';
 
-export default function NavBar() {
+export default function NavBar(source = 'filmapik') {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -9,7 +9,13 @@ export default function NavBar() {
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.location.href = `/movies/search?q=${encodeURIComponent(searchQuery)}`;
+      if(source == 'filmapik'){
+        window.location.href = `/movies/search?q=${encodeURIComponent(searchQuery)}`;
+        
+      }else{
+        window.location.href = `/ny21-indo/movies/search?q=${encodeURIComponent(searchQuery)}`;
+
+      }
     }
   };
 
@@ -71,6 +77,13 @@ export default function NavBar() {
             >
               <FiClock size={18} />
               <span>Terbaru</span>
+            </a>
+            <a 
+              href="/ny21-indo" 
+              className="px-4 py-2 text-white/80 hover:text-white flex items-center space-x-2 transition-colors"
+            >
+              {/* <FiClock size={18} /> */}
+              <span>FilmIndo</span>
             </a>
           </div>
 
@@ -134,6 +147,13 @@ export default function NavBar() {
                 <FiClock size={20} />
                 <span>Terbaru</span>
               </a>
+            <a 
+              href="/ny21-indo" 
+              className="flex items-center space-x-3 px-4 py-3 text-white/90 hover:bg-white/10 rounded-lg transition-colors"
+            >
+              {/* <FiClock size={18} /> */}
+              <span>FilmIndo</span>
+            </a>
             </div>
           </div>
         )}
