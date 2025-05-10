@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import NavBar from '../../components/navbar'
 import Hero from '../../components/hero'
 import '../../App.css'
-
+import MoviesComponent from '../../components/Movies'
 // import Trending from '../../components/trending'
 // import Movies from '../components/Movies'
 import Latest from '../../components/Latest'
@@ -43,7 +43,8 @@ function AppIndo() {
       <main>
 
           <Hero Movies={LatestMovies}/>
-
+        
+        <MoviesComponent Movies={Movies} source='justtalk'/>
         {/* <Trending trendingMovies={trendingMovies}/> */}
         <Latest LatestMovies={LatestMovies} source='justtalk'/>
         <Faq/>
