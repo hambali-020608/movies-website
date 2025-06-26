@@ -39,7 +39,7 @@ function App() {
   })
 
   return (
-    <div className='bg-[#d7f2fb]'>
+    <div className='bg-[#d7f2fb] overflow-x-hidden'>
       {/* {console.log(topMovies)} */}
       <NavBar source='filmapik'/>    
   {console.log(topMovies)}
