@@ -2,8 +2,8 @@
 @plugin "daisyui";
 
 body {
-  /* @apply max-w-[100vw] overflow-x-hidden;
-  @apply max-h-[100vh] overflow-y-hidden; */
+  @apply max-w-[100vw] overflow-x-hidden;
+  /* @apply max-h-[100vh] overflow-y-hidden; */
 
 }
 

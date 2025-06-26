@@ -42,7 +42,8 @@ export default function Hero({ Movies,source='filmapik' }) {
       <div className="relative z-10 min-h-screen flex flex-col justify-end p-10 py-24 container mx-auto ">
         <div className="flex flex-col lg:flex-row items-end gap-20">
           {/* Bagian Teks */}
-          <div className="max-w-md text-white mb-0 lg:mb-28  text-center">
+         <div className="max-w-md text-white mb-0 lg:mb-28 mx-auto text-center lg:mx-0 lg:text-left">
+
             <h1 className="mb-5 text-4xl font-bold">{Movies[activeIndex]?.moviesTitle}</h1>
             {/* <p className="mb-5 text-lg">
               Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi
@@ -52,9 +53,7 @@ export default function Hero({ Movies,source='filmapik' }) {
               <a href={source == 'filmapik' ? `/movies/streaming/${Movies[activeIndex]?.moviesTitle}` : `/ny21-indo/movies/streaming/${Movies[activeIndex]?.moviesTitle}`} className="btn btn-primary rounded-full px-6 py-2">
                 Watch Movie
               </a>
-              <button className="btn bg-transparent text-white border-white rounded-full px-6 py-2">
-                More info
-              </button>
+          
             </div>
           </div>
 
