@@ -42,7 +42,7 @@ function AppIndo() {
   {/* {console.log(topMovies)} */}
       <main>
 
-          <Hero Movies={LatestMovies}/>
+          <Hero source='justtalk' Movies={LatestMovies}/>
         
         <MoviesComponent Movies={Movies} source='justtalk'/>
         {/* <Trending trendingMovies={trendingMovies}/> */}
