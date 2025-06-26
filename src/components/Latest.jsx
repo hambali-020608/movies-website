@@ -12,7 +12,7 @@ export default function LatestMovies({LatestMovies,source="filmapik"}) {
       }
     
       return (
-        <div className="mx-4 md:mx-10">
+        <div className="mx-4 md:mx-10 overflow-x-hidden">
        <Headers title="Latest" url="/latest"/>
           <div className="h-auto min-h-[300px] md:min-h-[400px]">
            <MoviesSlide
