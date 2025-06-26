@@ -19,7 +19,7 @@ export default function Hero({ Movies,source='filmapik' }) {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden mb-10">
       {/* Background Layer */}
       <div className="absolute inset-0">
         {/* Gambar background dengan efek blur hanya di belakang */}
