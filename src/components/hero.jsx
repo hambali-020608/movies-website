@@ -87,7 +87,7 @@ export default function Hero({ Movies, source='filmapik' }) {
               {/* Buttons */}
               <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
                 <a 
-                  href={source == 'filmapik' ? `/movies/streaming/${Movies[activeIndex]?.moviesTitle}` : `/ny21-indo/movies/streaming/${Movies[activeIndex]?.moviesTitle}`}
+                  href={source == 'filmapik' ? `/movies/streaming/${Movies[activeIndex]?.moviesTitle}/movie` : `/ny21-indo/movies/streaming/${Movies[activeIndex]?.moviesTitle}`}
                   className="group relative inline-flex items-center space-x-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-500/50"
                 >
                   <div className="absolute inset-0 bg-white/20 rounded-full blur opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -96,7 +96,7 @@ export default function Hero({ Movies, source='filmapik' }) {
                 </a>
                 
                 <a 
-                  href={source == 'filmapik' ? `/movies/streaming/${Movies[activeIndex]?.moviesTitle}` : `/ny21-indo/movies/streaming/${Movies[activeIndex]?.moviesTitle}`}
+                  href={source == 'filmapik' ? `/movies/streaming/${Movies[activeIndex]?.moviesTitle}/movie` : `/ny21-indo/movies/streaming/${Movies[activeIndex]?.moviesTitle}`}
                   className="inline-flex items-center space-x-3 bg-slate-800/50 backdrop-blur-sm hover:bg-slate-700/50 text-white font-semibold px-8 py-4 rounded-full border border-slate-600 hover:border-blue-500/50 transition-all duration-300"
                 >
                   <FiInfo />

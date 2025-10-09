@@ -22,7 +22,7 @@ createRoot(document.getElementById('root')).render(
       <Route path="/movies" element={<Movies />} />
       <Route path="/trending" element={<TrendingPage/>} />
       <Route path="/latest" element={<LatestPage/>} />
-      <Route path="/movies/streaming/:slug" element={<StreamingMovie />} />
+      <Route path="/movies/streaming/:slug/:type" element={<StreamingMovie />} />
       <Route path="/movies/search?" element={<SearchResult />} />
       <Route path="/ny21-indo" element={<AppIndo />} />
       <Route path="/ny21-indo/movies/search?" element={<SearchResultIndo />} />

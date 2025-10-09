@@ -3,7 +3,7 @@ import { FiPlay, FiStar } from 'react-icons/fi';
 export default function MoviesCard({movie, index, source='filmapik'}){
     return(
         <a 
-            href={source == 'filmapik' ? `/movies/streaming/${movie.moviesTitle}` : `/ny21-indo/movies/streaming/${movie.moviesTitle}`} 
+            href={source == 'filmapik' ? `/movies/streaming/${movie.moviesTitle}/movie` : `/ny21-indo/movies/streaming/${movie.moviesTitle}`} 
             className="group relative block"
         >
             <div className="relative h-0 pb-[150%] overflow-hidden rounded-xl shadow-2xl transition-all duration-500 hover:shadow-blue-500/20 hover:shadow-2xl">

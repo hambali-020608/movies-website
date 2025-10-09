@@ -114,7 +114,7 @@ export default function LatestPage() {
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12">
               {Latest.map((movie) => (
                 <a
-                  href={`/movies/streaming/${movie.moviesTitle}`}
+                  href={`/movies/streaming/${movie.moviesTitle}/movie`}
                   key={movie.id}
                   className="group relative block"
                 >

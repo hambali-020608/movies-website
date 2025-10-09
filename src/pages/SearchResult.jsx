@@ -122,10 +122,11 @@ export default function SearchResult() {
 
           {/* Movies Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            {console.log(movies)}
             {movies.map((movie, index) => (
               <a
                 key={index}
-                href={`/movies/streaming/${movie.detailUrl}`}
+                href={`/movies/streaming/${movie.detailUrl.replace('Nonton','').replace('Sub Indo','')}/${movie.type  === 'Movies' ? 'movie' :'series'}`}
                 className="group relative block"
               >
                 <div className="relative h-0 pb-[150%] overflow-hidden rounded-xl shadow-2xl transition-all duration-500 hover:shadow-blue-500/20 hover:shadow-2xl">
