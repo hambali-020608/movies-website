@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FiSearch, FiMenu, FiX, FiHome, FiTrendingUp, FiClock } from 'react-icons/fi';
+import { FiSearch, FiMenu, FiX, FiHome, FiTrendingUp, FiClock, FiFilm } from 'react-icons/fi';
 
 export default function NavBar({source = 'filmapik'}) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -11,149 +11,156 @@ export default function NavBar({source = 'filmapik'}) {
     if (searchQuery.trim()) {
       if(source == 'filmapik'){
         window.location.href = `/movies/search?q=${encodeURIComponent(searchQuery)}`;
-        
       }else{
         window.location.href = `/ny21-indo/movies/search?q=${encodeURIComponent(searchQuery)}`;
-
       }
     }
   };
 
   return (
-    <nav className="max-w-[100vw] fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md shadow-lg">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo and Mobile Menu Button */}
-          <div className="flex items-center space-x-4">
-            <a href="/" className="text-white font-bold text-xl flex items-center">
-              <span className="hidden sm:inline">NontonYuk21</span>
-              <span className="sm:hidden">NontonYuk21</span>
-            </a>
-          </div>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 backdrop-blur-xl border-b border-blue-500/10 shadow-2xl">
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="flex justify-between items-center h-20">
+          {/* Logo */}
+          <a href="/" className="flex items-center space-x-3 group">
+            <div className="relative">
+              <div className="absolute inset-0 bg-blue-500 blur-xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
+              <FiFilm className="relative text-4xl text-blue-400 group-hover:text-blue-300 transition-colors" />
+            </div>
+            <div className="hidden sm:block">
+              <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                NontonYuk21
+              </span>
+            </div>
+          </a>
 
-          {/* Search Bar - Desktop */}
+          {/* Desktop Search Bar */}
           <form 
             onSubmit={handleSearch}
             className={`hidden md:flex relative items-center transition-all duration-300 ${
-              isSearchFocused ? 'w-72' : 'w-56'
+              isSearchFocused ? 'w-96' : 'w-72'
             }`}
           >
-            <input
-              type="text"
-              placeholder="Cari film..."
-              className="w-full pl-10 pr-4 py-2 rounded-full bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-primary/50"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={() => setIsSearchFocused(true)}
-              onBlur={() => setIsSearchFocused(false)}
-            />
-            <button 
-              type="submit" 
-              className="absolute left-3 text-white/80 hover:text-white transition-colors"
-            >
-              <FiSearch size={18} />
-            </button>
+            <div className="relative w-full">
+              <input
+                type="text"
+                placeholder="Cari film favorit..."
+                className="w-full pl-12 pr-4 py-3 rounded-full bg-slate-800/50 border border-blue-500/20 text-slate-100 placeholder-slate-400 focus:outline-none focus:border-blue-500/50 focus:bg-slate-800/80 transition-all duration-300"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => setIsSearchFocused(true)}
+                onBlur={() => setIsSearchFocused(false)}
+              />
+              <button 
+                type="submit" 
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-400 hover:text-blue-300 transition-colors"
+              >
+                <FiSearch size={20} />
+              </button>
+              {isSearchFocused && (
+                <div className="absolute inset-0 rounded-full bg-blue-500/5 blur-xl -z-10"></div>
+              )}
+            </div>
           </form>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-2">
             <a 
               href="/" 
-              className="px-4 py-2 text-white/80 hover:text-white flex items-center space-x-2 transition-colors"
+              className="group px-5 py-2.5 text-slate-300 hover:text-blue-400 flex items-center space-x-2 transition-all duration-300 rounded-lg hover:bg-slate-800/50 relative overflow-hidden"
             >
-              <FiHome size={18} />
-              <span>Home</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/10 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <FiHome size={18} className="relative" />
+              <span className="relative font-medium">Home</span>
             </a>
             <a 
               href="/trending" 
-              className="px-4 py-2 text-white/80 hover:text-white flex items-center space-x-2 transition-colors"
+              className="group px-5 py-2.5 text-slate-300 hover:text-blue-400 flex items-center space-x-2 transition-all duration-300 rounded-lg hover:bg-slate-800/50 relative overflow-hidden"
             >
-              <FiTrendingUp size={18} />
-              <span>Trending</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/10 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <FiTrendingUp size={18} className="relative" />
+              <span className="relative font-medium">Trending</span>
             </a>
             <a 
               href="/latest" 
-              className="px-4 py-2 text-white/80 hover:text-white flex items-center space-x-2 transition-colors"
+              className="group px-5 py-2.5 text-slate-300 hover:text-blue-400 flex items-center space-x-2 transition-all duration-300 rounded-lg hover:bg-slate-800/50 relative overflow-hidden"
             >
-              <FiClock size={18} />
-              <span>Terbaru</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/10 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <FiClock size={18} className="relative" />
+              <span className="relative font-medium">Terbaru</span>
             </a>
             <a 
               href="/ny21-indo" 
-              className="px-4 py-2 text-white/80 hover:text-white flex items-center space-x-2 transition-colors"
+              className="px-5 py-2.5 text-slate-300 hover:text-blue-400 flex items-center space-x-2 transition-all duration-300 rounded-lg hover:bg-slate-800/50 font-medium"
             >
-              {/* <FiClock size={18} /> */}
               <span>FilmIndo</span>
             </a>
           </div>
 
-          {/* Mobile Menu Button and Search */}
-          <div className="flex lg:hidden items-center space-x-3">
-            <button 
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-white p-2 focus:outline-none"
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-            </button>
-          </div>
+          {/* Mobile Menu Button */}
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden text-slate-300 p-2 hover:text-blue-400 transition-colors"
+          >
+            {isMobileMenuOpen ? <FiX size={28} /> : <FiMenu size={28} />}
+          </button>
         </div>
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden z-40 bg-gray-900/95 backdrop-blur-lg pb-4">
+          <div className="md:hidden pb-6 animate-fade-in">
             {/* Mobile Search */}
-            <form onSubmit={handleSearch} className="px-4 py-3">
+            <form onSubmit={handleSearch} className="mb-4">
               <div className="relative">
                 <input
                   type="text"
                   placeholder="Cari film..."
-                  className="w-full pl-10 pr-4 py-2 rounded-full bg-white/20 text-white placeholder-white/70 focus:outline-none"
+                  className="w-full pl-12 pr-4 py-3 rounded-full bg-slate-800/50 border border-blue-500/20 text-slate-100 placeholder-slate-400 focus:outline-none focus:border-blue-500/50"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
                 <button 
                   type="submit" 
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/80 hover:text-white transition-colors"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-400"
                 >
-                  <FiSearch size={18} />
+                  <FiSearch size={20} />
                 </button>
               </div>
             </form>
 
-            {/* Mobile Navigation Links */}
-            <div className="flex flex-col space-y-1 px-2">
+            {/* Mobile Nav Links */}
+            <div className="flex flex-col space-y-2">
               <a 
                 href="/" 
-                className="flex items-center space-x-3 px-4 py-3 text-white/90 hover:bg-white/10 rounded-lg transition-colors"
+                className="flex items-center space-x-3 px-4 py-3 text-slate-300 hover:text-blue-400 hover:bg-slate-800/50 rounded-lg transition-all"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 <FiHome size={20} />
-                <span>Home</span>
+                <span className="font-medium">Home</span>
               </a>
               <a 
                 href="/trending" 
-                className="flex items-center space-x-3 px-4 py-3 text-white/90 hover:bg-white/10 rounded-lg transition-colors"
+                className="flex items-center space-x-3 px-4 py-3 text-slate-300 hover:text-blue-400 hover:bg-slate-800/50 rounded-lg transition-all"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 <FiTrendingUp size={20} />
-                <span>Trending</span>
+                <span className="font-medium">Trending</span>
               </a>
               <a 
                 href="/latest" 
-                className="flex items-center space-x-3 px-4 py-3 text-white/90 hover:bg-white/10 rounded-lg transition-colors"
+                className="flex items-center space-x-3 px-4 py-3 text-slate-300 hover:text-blue-400 hover:bg-slate-800/50 rounded-lg transition-all"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 <FiClock size={20} />
-                <span>Terbaru</span>
+                <span className="font-medium">Terbaru</span>
               </a>
-            <a 
-              href="/ny21-indo" 
-              className="flex items-center space-x-3 px-4 py-3 text-white/90 hover:bg-white/10 rounded-lg transition-colors"
-            >
-              {/* <FiClock size={18} /> */}
-              <span>FilmIndo</span>
-            </a>
+              <a 
+                href="/ny21-indo" 
+                className="flex items-center space-x-3 px-4 py-3 text-slate-300 hover:text-blue-400 hover:bg-slate-800/50 rounded-lg transition-all"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <span className="font-medium">FilmIndo</span>
+              </a>
             </div>
           </div>
         )}
