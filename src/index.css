@@ -89,9 +89,9 @@ html {
 }
 
 /* Gradient Text */
-.gradient-text {
+/* .gradient-text {
   @apply bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent;
-}
+} */
 
 /* Glass Effect */
 .glass-effect {
@@ -177,6 +177,6 @@ img.loaded {
 }
 
 /* Section Titles */
-.section-title {
+/* .section-title {
   @apply text-center mb-8 gradient-text;
-}
+} */
