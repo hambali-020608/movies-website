@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-import Hls from 'hls.js';
 
 const VideoPlayer = ({ url, title }) => {
   const videoRef = useRef(null);
@@ -7,28 +6,43 @@ const VideoPlayer = ({ url, title }) => {
   useEffect(() => {
     if (!url || !videoRef.current) return;
 
-    const video = videoRef.current;
+    const loadHls = async () => {
+      // Load HLS.js dari CDN jika belum ada
+      if (!window.Hls) {
+        await new Promise((resolve) => {
+          const script = document.createElement('script');
+          script.src = 'https://cdn.jsdelivr.net/npm/hls.js@latest';
+          script.onload = resolve;
+          document.body.appendChild(script);
+        });
+      }
 
-    // Reset video
-    video.src = '';
+      const Hls = window.Hls;
+      const video = videoRef.current;
 
-    let hls;
+      // Reset video sebelum attach HLS
+      video.src = '';
+      if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(url);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.ERROR, (event, data) => {
+          console.error('HLS.js error:', data);
+        });
 
-    if (Hls.isSupported()) {
-      hls = new Hls();
-      hls.loadSource(url);
-      hls.attachMedia(video);
-      hls.on(Hls.Events.ERROR, (event, data) => {
-        console.error('HLS.js error:', data);
-      });
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      // fallback untuk Safari / browser yang support native HLS
-      video.src = url;
-    }
+        // Cleanup saat unmount atau ganti URL
+        return () => hls.destroy();
+      } else {
+        // Fallback untuk browser yang support native HLS
+        video.src = url;
+      }
+    };
 
-    // Cleanup saat unmount atau ganti URL
+    const cleanup = loadHls();
+
+    // Jika loadHls mengembalikan cleanup, jalankan saat unmount
     return () => {
-      if (hls) hls.destroy();
+      if (cleanup && typeof cleanup === 'function') cleanup();
     };
   }, [url]);
 
