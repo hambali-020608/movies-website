@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useParams } from 'react-router';
 import NavBar from '../components/navbar';
 import VideoPlayer from '../components/videoPlayer';
@@ -13,57 +13,89 @@ const StreamingMovies = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const slugify = (str) =>
-    decodeURIComponent(str)
-      .replace(/\((\d{4})\)/, '-$1')
-      .replace(/&/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/[^a-z0-9\-]/gi, '')
-      .replace(/-+/g, '-')
-      .replace('Nonton', '')
-      .replace(/^-|-$/g, '')
-      .toLowerCase();
+  // ✅ Gunakan useMemo agar slugify tidak dihitung ulang setiap render
+  const cleanSlug = useMemo(() => {
+    const slugify = (str) =>
+      decodeURIComponent(str)
+        .replace(/\((\d{4})\)/, '-$1')
+        .replace(/&/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9\-]/gi, '')
+        .replace(/-+/g, '-')
+        .replace('Nonton', '')
+        .replace(/^-|-$/g, '')
+        .toLowerCase();
 
-  const cleanSlug = slugify(slug);
+    return slugify(slug);
+  }, [slug]);
 
+  // ✅ Cache fungsi fetchData agar tidak membuat fungsi baru setiap render
+  const fetchData = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const url =
+        type === 'series'
+          ? `https://profesor-api.vercel.app/api/movies/v1/download?slug=${cleanSlug}&type=TV-Shows`
+          : `https://profesor-api.vercel.app/api/movies/v1/download?slug=${cleanSlug}`;
+
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Failed to fetch data');
+
+      const json = await res.json();
+      setData(json);
+
+      // Ambil link pertama sebagai default
+      if (json.links?.length) setSelectedLink(json.links[0].url);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [cleanSlug, type]);
+
+  // ✅ Jalankan fetch hanya saat slug/type berubah
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const url =
-          type === 'series'
-            ? `https://profesor-api.vercel.app/api/movies/v1/download?slug=${cleanSlug}&type=TV-Shows`
-            : `https://profesor-api.vercel.app/api/movies/v1/download?slug=${cleanSlug}`;
-        const res = await fetch(url);
-        const data = await res.json();
-        setData(data);
-
-        if (data.links?.length) setSelectedLink(data.links[0].url);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     fetchData();
-  }, [slug, type]);
+  }, [fetchData]);
 
-  const handleEpisodeSelect = async (episode) => {
+  // ✅ Gunakan useCallback untuk menghindari re-render EpisodeSelector setiap kali render ulang
+  const handleEpisodeSelect = useCallback(async (episode) => {
     try {
       const res = await fetch(
         `https://profesor-api.vercel.app/api/movies/v1/streaming-drama?slug=${encodeURIComponent(
           episode.href
         )}`
       );
-      const data = await res.json();
-      const stream = data.servers?.[0]?.url || data.downloadLinks?.[0]?.url;
+      const json = await res.json();
+      const stream = json.servers?.[0]?.url || json.downloadLinks?.[0]?.url;
       if (stream) setSelectedLink(stream);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       console.error(err);
     }
-  };
+  }, []);
 
+  // ✅ Gunakan memoized render agar bagian tertentu tidak re-render tanpa perubahan
+  const serverButtons = useMemo(() => {
+    if (!data?.links) return null;
+
+    return data.links.map((link, i) => (
+      <button
+        key={i}
+        onClick={() => setSelectedLink(link.url)}
+        className={`px-5 py-2 rounded-lg transition-all ${
+          selectedLink === link.url
+            ? 'bg-blue-600 text-white'
+            : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+        }`}
+      >
+        <FiServer className="inline mr-2" />
+        {link.server}
+      </button>
+    ));
+  }, [data?.links, selectedLink]);
+
+  // ✅ State loading & error cepat
   if (isLoading)
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400">
@@ -96,12 +128,11 @@ const StreamingMovies = () => {
       </div>
 
       <div className="container mx-auto px-4 lg:px-8 py-12 space-y-10">
-        {/* Tampilkan hanya jika type = series */}
+        {/* Episode hanya jika series */}
         {type === 'series' && data.seasons && (
           <EpisodeSelector seasons={data.seasons} onSelect={handleEpisodeSelect} />
         )}
 
-        {/* Info umum */}
         <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 space-y-6">
           <h1 className="text-3xl font-bold text-slate-100">{data.title}</h1>
 
@@ -126,24 +157,9 @@ const StreamingMovies = () => {
           <p className="text-slate-300">{data.synopsis || data.seriesStatus}</p>
 
           {/* Server pilihan */}
-          {data.links && (
-            <div className="flex flex-wrap gap-3 pt-4 border-t border-slate-700">
-              {data.links.map((link, i) => (
-                <button
-                  key={i}
-                  onClick={() => setSelectedLink(link.url)}
-                  className={`px-5 py-2 rounded-lg transition-all ${
-                    selectedLink === link.url
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                  }`}
-                >
-                  <FiServer className="inline mr-2" />
-                  {link.server}
-                </button>
-              ))}
-            </div>
-          )}
+          <div className="flex flex-wrap gap-3 pt-4 border-t border-slate-700">
+            {serverButtons}
+          </div>
         </div>
       </div>
     </div>
