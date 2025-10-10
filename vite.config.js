@@ -7,10 +7,8 @@ export default defineConfig({
   base:'/',
   plugins: [react(),tailwindcss()],
   build:{
-    external:[
-      'fs',
-      'path',
-      'hls.js'
-    ]
+     rollupOptions: {
+      external: ['hls.js'], // beri tahu Rollup jangan bundle hls.js
+    },
   }
 })
