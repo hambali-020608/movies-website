@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useParams } from 'react-router';
-import Hls from 'hls.js';
 import NavBar from '../components/navbar';
 import EpisodeSelector from '../components/EpisodeSelector';
 import { FiServer } from 'react-icons/fi';
@@ -14,7 +13,6 @@ const StreamingMovies = () => {
   const [error, setError] = useState(null);
   const videoRef = useRef(null);
 
-  // slugify dengan useMemo
   const cleanSlug = useMemo(() => {
     const slugify = (str) =>
       decodeURIComponent(str)
@@ -29,7 +27,6 @@ const StreamingMovies = () => {
     return slugify(slug);
   }, [slug]);
 
-  // fetch data
   const fetchData = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -53,7 +50,6 @@ const StreamingMovies = () => {
     fetchData();
   }, [fetchData]);
 
-  // handle episode select
   const handleEpisodeSelect = useCallback(async (episode) => {
     try {
       const res = await fetch(
@@ -70,21 +66,33 @@ const StreamingMovies = () => {
     }
   }, []);
 
-  // inisialisasi HLS
+  // ✅ Dynamic import HLS.js agar Vite build aman
   useEffect(() => {
     if (!selectedLink || !videoRef.current) return;
 
-    if (Hls.isSupported()) {
-      const hls = new Hls();
-      hls.loadSource(selectedLink);
-      hls.attachMedia(videoRef.current);
-      hls.on(Hls.Events.ERROR, (event, data) => {
-        console.error('HLS.js error:', data);
-      });
-      return () => hls.destroy();
-    } else if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
-      videoRef.current.src = selectedLink;
-    }
+    let hls;
+
+    const initHls = async () => {
+      const HlsModule = await import('hls.js');
+      const Hls = HlsModule.default;
+
+      if (Hls.isSupported()) {
+        hls = new Hls();
+        hls.loadSource(selectedLink);
+        hls.attachMedia(videoRef.current);
+        hls.on(Hls.Events.ERROR, (event, data) => {
+          console.error('HLS.js error:', data);
+        });
+      } else {
+        videoRef.current.src = selectedLink;
+      }
+    };
+
+    initHls();
+
+    return () => {
+      if (hls) hls.destroy();
+    };
   }, [selectedLink]);
 
   const serverButtons = useMemo(() => {
