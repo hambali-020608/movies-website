@@ -9,7 +9,8 @@ export default defineConfig({
   build:{
     external:[
       'fs',
-      'path'
+      'path',
+      'hls.js'
     ]
   }
 })
