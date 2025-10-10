@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useParams } from 'react-router';
+import Hls from 'hls.js';
 import NavBar from '../components/navbar';
-import VideoPlayer from '../components/videoPlayer';
 import EpisodeSelector from '../components/EpisodeSelector';
 import { FiServer } from 'react-icons/fi';
 import { FaClock, FaStar, FaCalendarAlt } from 'react-icons/fa';
@@ -12,8 +12,9 @@ const StreamingMovies = () => {
   const [selectedLink, setSelectedLink] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const videoRef = useRef(null);
 
-  // ✅ Gunakan useMemo agar slugify tidak dihitung ulang setiap render
+  // slugify dengan useMemo
   const cleanSlug = useMemo(() => {
     const slugify = (str) =>
       decodeURIComponent(str)
@@ -25,11 +26,10 @@ const StreamingMovies = () => {
         .replace('Nonton', '')
         .replace(/^-|-$/g, '')
         .toLowerCase();
-
     return slugify(slug);
   }, [slug]);
 
-  // ✅ Cache fungsi fetchData agar tidak membuat fungsi baru setiap render
+  // fetch data
   const fetchData = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -37,14 +37,10 @@ const StreamingMovies = () => {
         type === 'series'
           ? `https://profesor-api.vercel.app/api/movies/v1/download?slug=${cleanSlug}&type=TV-Shows`
           : `https://profesor-api.vercel.app/api/movies/v1/download?slug=${cleanSlug}`;
-
       const res = await fetch(url);
       if (!res.ok) throw new Error('Failed to fetch data');
-
       const json = await res.json();
       setData(json);
-
-      // Ambil link pertama sebagai default
       if (json.links?.length) setSelectedLink(json.links[0].url);
     } catch (err) {
       setError(err.message);
@@ -53,12 +49,11 @@ const StreamingMovies = () => {
     }
   }, [cleanSlug, type]);
 
-  // ✅ Jalankan fetch hanya saat slug/type berubah
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-  // ✅ Gunakan useCallback untuk menghindari re-render EpisodeSelector setiap kali render ulang
+  // handle episode select
   const handleEpisodeSelect = useCallback(async (episode) => {
     try {
       const res = await fetch(
@@ -75,10 +70,25 @@ const StreamingMovies = () => {
     }
   }, []);
 
-  // ✅ Gunakan memoized render agar bagian tertentu tidak re-render tanpa perubahan
+  // inisialisasi HLS
+  useEffect(() => {
+    if (!selectedLink || !videoRef.current) return;
+
+    if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(selectedLink);
+      hls.attachMedia(videoRef.current);
+      hls.on(Hls.Events.ERROR, (event, data) => {
+        console.error('HLS.js error:', data);
+      });
+      return () => hls.destroy();
+    } else if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
+      videoRef.current.src = selectedLink;
+    }
+  }, [selectedLink]);
+
   const serverButtons = useMemo(() => {
     if (!data?.links) return null;
-
     return data.links.map((link, i) => (
       <button
         key={i}
@@ -95,7 +105,6 @@ const StreamingMovies = () => {
     ));
   }, [data?.links, selectedLink]);
 
-  // ✅ State loading & error cepat
   if (isLoading)
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400">
@@ -120,22 +129,26 @@ const StreamingMovies = () => {
   return (
     <div className="min-h-screen bg-slate-950">
       <NavBar />
-
       <div className="pt-20 bg-gradient-to-b from-slate-950 to-slate-900">
         <div className="container mx-auto px-4 lg:px-8 py-8">
-          <VideoPlayer url={selectedLink} title={data.title} />
+          <div className="w-full aspect-video bg-black rounded-xl overflow-hidden">
+            <video
+              ref={videoRef}
+              controls
+              autoPlay
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
       </div>
 
       <div className="container mx-auto px-4 lg:px-8 py-12 space-y-10">
-        {/* Episode hanya jika series */}
         {type === 'series' && data.seasons && (
           <EpisodeSelector seasons={data.seasons} onSelect={handleEpisodeSelect} />
         )}
 
         <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 space-y-6">
           <h1 className="text-3xl font-bold text-slate-100">{data.title}</h1>
-
           <div className="flex flex-wrap gap-4">
             {data.rating && (
               <div className="flex items-center gap-2 text-yellow-400">
@@ -153,10 +166,8 @@ const StreamingMovies = () => {
               </div>
             )}
           </div>
-
           <p className="text-slate-300">{data.synopsis || data.seriesStatus}</p>
 
-          {/* Server pilihan */}
           <div className="flex flex-wrap gap-3 pt-4 border-t border-slate-700">
             {serverButtons}
           </div>
