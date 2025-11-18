@@ -7,7 +7,7 @@ import "swiper/css";
 
 const Hero = React.memo(({ Movies = [], source = "filmapik" }) => {
   const [activeIndex, setActiveIndex] = useState(0);
-
+{console.log("movies",Movies)}
   // ✅ Cegah re-render kalau Movies kosong
   if (!Movies.length) {
     return (
@@ -32,7 +32,9 @@ const Hero = React.memo(({ Movies = [], source = "filmapik" }) => {
   const slides = useMemo(
     () =>
       Movies.map((poster, index) => (
+        
         <SwiperSlide key={index} className="hero-swiper-slide">
+          {/* {console.log(poster)} */}
           <div className="relative group">
             <img
               src={poster.posterUrls}
