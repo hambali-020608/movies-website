@@ -76,14 +76,14 @@ function App() {
         <NavBar source="filmapik" />
         <main>
           {/* {console.log(movies)} */}
-          {movies.top.data.length > 0 && <Hero Movies={movies.top} />}
+          {movies.top.data.length > 0 && <Hero Movies={movies.top.data} />}
 {/* {console.log(movies)} */}
           <div className="space-y-16 pb-20">
             {movies.trending.data.length > 0 && (
-              <Trending trendingMovies={movies.trending} />
+              <Trending trendingMovies={movies.trending.data} />
             )}
             {movies.latest.data.length > 0 && (
-              <Latest LatestMovies={movies.latest} />
+              <Latest LatestMovies={movies.latest.data} />
             )}
             <Faq />
           </div>
