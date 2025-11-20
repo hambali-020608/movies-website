@@ -19,7 +19,8 @@ export default function TrendingPage() {
           `https://profesor-api.vercel.app/api/movies/v1/trending?page=${currentPage}`
         );
         const data = await response.json();
-        setTrending(data.data);
+        console.log(data)
+        setTrending(data.data.data);
         setHasNextPage(data.data.length === perPage);
       } catch (err) {
         setError("Failed to fetch movies.");
@@ -113,11 +114,13 @@ export default function TrendingPage() {
             {/* Movies Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12">
               {trending.map((movie) => (
+                console.log("trending movie",movie),
                 <a
-                  href={`/movies/streaming/${movie.moviesTitle}`}
+                href={`/movies/streaming/${movie.moviesTitle}/${movie.Type === "Movies" ? "movie" : "series"}`}
                   key={movie.id}
                   className="group relative block"
                 >
+                  {console.log(movie)}
                   <div className="relative h-0 pb-[150%] overflow-hidden rounded-xl shadow-2xl transition-all duration-500 hover:shadow-blue-500/20 hover:shadow-2xl">
                     {/* Image */}
                     <img

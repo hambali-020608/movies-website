@@ -35,7 +35,7 @@ export default function SearchResult() {
         if (!response.ok) throw new Error("Failed to fetch movies");
 
         const data = await response.json();
-        setMovies(Array.isArray(data) ? data : []);
+        setMovies(Array.isArray(data.data) ? data.data : []);
         setStatus("success");
       } catch (err) {
         if (err.name !== "AbortError") {

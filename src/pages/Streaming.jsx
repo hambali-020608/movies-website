@@ -42,10 +42,13 @@ const StreamingMovies = () => {
       if (!res.ok) throw new Error('Failed to fetch data');
 
       const json = await res.json();
-      setData(json);
+      console.log("streaming data",json);
+      
+      setData(json.data);
 
       // Ambil link pertama sebagai default
-      if (json.links?.length) setSelectedLink(json.links[0].url);
+      console.log("links",json.data.links.length);
+      if (json.data.links.length) setSelectedLink(json.data.links[0].url);
     } catch (err) {
       setError(err.message);
     } finally {

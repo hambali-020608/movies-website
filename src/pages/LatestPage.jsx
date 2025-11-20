@@ -19,7 +19,7 @@ export default function LatestPage() {
           `https://profesor-api.vercel.app/api/movies/v1/latest?page=${currentPage}`
         );
         const data = await response.json();
-        setLatest(data.data);
+        setLatest(data.data.data);
         setHasNextPage(data.data.length === perPage);
       } catch (err) {
         setError("Failed to fetch movies.");
@@ -114,7 +114,7 @@ export default function LatestPage() {
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12">
               {Latest.map((movie) => (
                 <a
-                  href={`/movies/streaming/${movie.moviesTitle}/movie`}
+                  href={`/movies/streaming/${movie.moviesTitle}/${movie.Type === "Movies" ? "movie" : "series"}`}
                   key={movie.id}
                   className="group relative block"
                 >

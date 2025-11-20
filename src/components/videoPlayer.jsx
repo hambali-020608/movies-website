@@ -6,11 +6,13 @@ const VideoPlayer = ({ url, title }) => {
       {url ? (
         <iframe
           src={url}
-          className="w-full h-full"
-          frameBorder="0"
-          allow="autoplay; encrypted-media; fullscreen"
-          allowFullScreen
-          title={`${title} Player`}
+  className="w-full h-full"
+  frameBorder="0"
+  allow="fullscreen"
+  allowFullScreen
+  webkitallowfullscreen="true"
+  mozallowfullscreen="true"
+  title={`${title} Player`}
         ></iframe>
       ) : (
         <div className="flex items-center justify-center h-full bg-slate-900 text-slate-400">
