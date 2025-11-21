@@ -42,13 +42,13 @@ const StreamingMovies = () => {
       if (!res.ok) throw new Error('Failed to fetch data');
 
       const json = await res.json();
-      console.log("streaming data",json);
+      console.log("streaming data",json.data);
       
       setData(json.data);
 
       // Ambil link pertama sebagai default
-      console.log("links",json.data.links.length);
-      if (json.data.links.length) setSelectedLink(json.data.links[0].url);
+    
+      // if (json.data.links.length ) setSelectedLink(json.data.links[0].url);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -70,7 +70,8 @@ const StreamingMovies = () => {
         )}`
       );
       const json = await res.json();
-      const stream = json.servers?.[0]?.url || json.downloadLinks?.[0]?.url;
+      console.log("episode streaming",json);
+      const stream = json.data.servers?.[0]?.url || json.data.downloadLinks?.[0]?.url;
       if (stream) setSelectedLink(stream);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
@@ -126,12 +127,15 @@ const StreamingMovies = () => {
 
       <div className="container mx-auto px-4 lg:px-8 py-12 space-y-10">
         {/* Episode hanya jika series */}
+        {/* {console.log(data)} */}
+      
+        
         {type === 'series' && data.seasons && (
           <EpisodeSelector seasons={data.seasons} onSelect={handleEpisodeSelect} />
         )}
 
         <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 space-y-6">
-        {console.log(data)}
+        {/* {console.log(data)} */}
         <MoviesDescription title={data.title} synopsis={data.synopsis} year={data.releaseYear} rating={data.imdb}  />
           {/* Server pilihan */}
           <div className="flex flex-wrap gap-3 pt-4 border-t border-slate-700">
