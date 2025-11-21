@@ -24,19 +24,44 @@ export default function SearchResult() {
       setError(null);
 
       try {
-        const response = await fetch(
-          `${base_api}/api/movies/v1/search?q=${encodeURIComponent(query)}`,
-          {
-            signal: controller.signal,
-            cache: "force-cache", // pakai cache browser
-          }
+          const fetchGlobal = async () => {
+            const response = await fetch(
+                `${base_api}/api/movies/v1/search?q=${encodeURIComponent(query)}`,
+                { signal: controller.signal, cache: "force-cache" }
+            );
+            if (!response.ok) throw new Error("Gagal mengambil data film Global.");
+            const data = await response.json();
+            // Tambahkan properti 'source'='global'
+            return Array.isArray(data.data) ? data.data.map(m => ({...m, source: 'filmapik'})) : [];
+        };
+
+        // 2. FUNGSI FETCH UNTUK API INDONESIA (Indonesian Source)
+        const fetchIndo = async () => {
+            // GANTI '/api/indo-search' DENGAN ENDPOINT PENCARIAN INDO ANDA
+            const response = await fetch(
+                `${base_api}/api/movies/v2/search?q=${encodeURIComponent(query)}`,
+                { signal: controller.signal, cache: "force-cache" }
+            );
+            if (!response.ok) throw new Error("Gagal mengambil data film Indonesia.");
+            const data = await response.json(); 
+            return Array.isArray(data.data) ? data.data.map(m => ({...m, source: 'hostingaloha'})) : [];
+        };
+        // const data = await response.json();
+           const [globalResults, indoResults] = await Promise.all([
+         
+            fetchGlobal().catch(e => { console.error("Global API Error:", e.message); return []; }),
+            fetchIndo().catch(e => { console.error("Indo API Error:", e.message); return []; }),
+        ]);
+
+        const combinedResults = [...globalResults, ...indoResults];
+        
+        const uniqueResults = combinedResults.filter((movie, index, self) =>
+            index === self.findIndex((t) => (t.title === movie.title))
         );
-
-        if (!response.ok) throw new Error("Failed to fetch movies");
-
-        const data = await response.json();
-        setMovies(Array.isArray(data.data) ? data.data : []);
-        setStatus("success");
+        setMovies(uniqueResults);
+        if (uniqueResults.length > 0) {
+          setStatus("success");
+        }
       } catch (err) {
         if (err.name !== "AbortError") {
           setError(err.message);
@@ -44,16 +69,13 @@ export default function SearchResult() {
         }
       }
     };
-
     fetchMovies();
-
-    // cleanup → cancel fetch kalau user ganti query cepat
     return () => controller.abort();
   }, [query, base_api]);
 
-  // Precompute text untuk hasil
   const resultsText = useMemo(() => {
     if (!query) return "Please enter a search term";
+    if (status === "loading" || (status === "idle" && query)) return "Mencari film..."; 
     if (status === "loading") return "Searching movies...";
     if (status === "error") return `Error: ${error}`;
     if (movies.length === 0) return `No movies found for "${query}"`;
@@ -61,7 +83,7 @@ export default function SearchResult() {
   }, [status, movies, query, error]);
 
   // Loading state global
-  if (status === "loading") {
+  if (status === "loading" || (status === "idle" && query) ) {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center">
         <div className="text-center space-y-4">
@@ -109,9 +131,11 @@ export default function SearchResult() {
                 return (
                   <a
                     key={index}
-                    href={`/movies/streaming/${safeTitle}/${isMovie ? "movie" : "series"}`}
+            
+                    href={ movie.source == 'filmapik'? `/movies/streaming/${safeTitle}/${isMovie ? "movie" : "series"}`: ''}
                     className="group relative block will-change-transform"
                   >
+                    {console.log(movie)}
                     <div className="relative h-0 pb-[150%] overflow-hidden rounded-xl shadow-2xl transition-all duration-500 hover:shadow-blue-500/20 hover:shadow-2xl">
                       {/* Lazy image loading */}
                       <img
