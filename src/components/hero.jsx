@@ -122,17 +122,7 @@ const Hero = React.memo(({ Movies = [], source = "filmapik" }) => {
                   <span className="relative">Watch Now</span>
                 </a>
 
-                <a
-                  href={
-                    source === "filmapik"
-                      ? `/movies/streaming/${activeMovie.moviesTitle}/movie`
-                      : `/ny21-indo/movies/streaming/${activeMovie.moviesTitle}`
-                  }
-                  className="inline-flex items-center space-x-3 bg-slate-800/50 backdrop-blur-sm hover:bg-slate-700/50 text-white font-semibold px-8 py-4 rounded-full border border-slate-600 hover:border-blue-500/50 transition-all duration-300"
-                >
-                  <FiInfo />
-                  <span>More Info</span>
-                </a>
+                {/*  */}
               </div>
             </div>
 

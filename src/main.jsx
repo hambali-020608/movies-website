@@ -4,7 +4,7 @@ import { BrowserRouter,Routes,Route, HashRouter } from 'react-router'
 import './index.css'
 import App from './pages/App.jsx'
 import AppIndo from './pages/nontonIndo/App.jsx'
-import Movies from './pages/MoviesPage.jsx'
+import Movies from './pages/IndoMoviesPage.jsx'
 import StreamingMovie from './pages/Streaming.jsx'
 import StreamingMovieIndo from './pages/nontonIndo/Streaming.jsx'
 import SearchResult from './pages/SearchResult.jsx'
@@ -13,6 +13,7 @@ import TrendingPage from './pages/TrendingPage.jsx'
 import StreamingLink from './pages/StreamingLink.jsx'
 import LatestPage from './pages/LatestPage.jsx'
 import NotFound from './pages/NotFound.jsx'
+import IndoMoviesPage from './pages/IndoMoviesPage.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>  
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')).render(
       <Route path="/" element={<App />} />
       <Route path="*" element={<NotFound />} />
       <Route path="/movies" element={<Movies />} />
+      <Route path="/indo-movies" element={<IndoMoviesPage/>} />
       <Route path="/trending" element={<TrendingPage/>} />
       <Route path="/latest" element={<LatestPage/>} />
       <Route path="/movies/streaming/:slug/:type" element={<StreamingMovie />} />
