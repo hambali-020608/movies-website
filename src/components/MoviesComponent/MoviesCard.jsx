@@ -7,8 +7,8 @@ function MoviesCard({ movie, index, source = "filmapik" }) {
     const title = encodeURIComponent(movie.moviesTitle || `movie-${index + 1}`);
     return source === "filmapik"
       ? `/movies/streaming/${title}/movie`
-      : `/ny21-indo/movies/streaming/${title}`;
-  }, [movie.moviesTitle, index, source]);
+      : `/movies/streaming/${movie.encodeurl}`;
+  }, [movie.moviesTitle || movie.title, index, source]);
 
   // Hindari re-render jika prop tidak berubah
   return (
@@ -16,8 +16,8 @@ function MoviesCard({ movie, index, source = "filmapik" }) {
       <div className="relative h-0 pb-[150%] overflow-hidden rounded-xl shadow-2xl transition-all duration-500 hover:shadow-blue-500/20">
         {/* Lazy Loaded Image */}
         <img
-          src={movie.posterUrls}
-          alt={movie.moviesTitle || `Movie ${index + 1}`}
+          src={movie.posterUrls || movie.poster}
+          alt={movie.moviesTitle || `Movie ${index + 1}` || movie.title}
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           loading="lazy"
           decoding="async"
@@ -41,9 +41,9 @@ function MoviesCard({ movie, index, source = "filmapik" }) {
         <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
           <h3
             className="text-white text-sm md:text-base font-semibold line-clamp-2 mb-2 drop-shadow-lg"
-            title={movie.moviesTitle}
+            title={movie.moviesTitle || movie.title}
           >
-            {movie.moviesTitle}
+            {movie.moviesTitle || movie.title}
           </h3>
 
           {movie.rating && (
