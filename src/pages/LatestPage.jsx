@@ -20,7 +20,7 @@ export default function LatestPage() {
         );
         const data = await response.json();
         setLatest(data.data.data);
-        setHasNextPage(data.data.length === perPage);
+        setHasNextPage(data.data.length > 0);
       } catch (err) {
         setError("Failed to fetch movies.");
       } finally {

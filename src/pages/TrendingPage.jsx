@@ -21,7 +21,7 @@ export default function TrendingPage() {
         const data = await response.json();
         console.log(data)
         setTrending(data.data.data);
-        setHasNextPage(data.data.length === perPage);
+        setHasNextPage(data.data.length > 0);
       } catch (err) {
         setError("Failed to fetch movies.");
       } finally {
