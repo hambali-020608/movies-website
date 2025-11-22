@@ -76,7 +76,7 @@ function App() {
         <NavBar source="filmapik" />
         <main>
           {/* {console.log(movies)} */}
-          {movies.top.data.length > 0 && <Hero Movies={movies.top.data} />}
+          {movies?.top?.data?.length > 0 && <Hero Movies={movies.top.data} />}
 {/* {console.log(movies)} */}
           <div className="space-y-16 pb-20">
             {movies.trending.data.length > 0 && (

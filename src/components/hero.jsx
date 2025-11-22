@@ -7,7 +7,7 @@ import "swiper/css";
 
 const Hero = React.memo(({ Movies = [], source = "filmapik" }) => {
   const [activeIndex, setActiveIndex] = useState(0);
-{console.log("movies",Movies)}
+// {console.log("movies",Movies)}
   // ✅ Cegah re-render kalau Movies kosong
   if (!Movies.length) {
     return (
