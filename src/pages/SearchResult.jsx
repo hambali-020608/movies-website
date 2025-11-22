@@ -132,7 +132,7 @@ export default function SearchResult() {
                   <a
                     key={index}
             
-                    href={ movie.source == 'filmapik'? `/movies/streaming/${safeTitle}/${isMovie ? "movie" : "series"}`: ''}
+                    href={ movie.source == 'filmapik'? `/movies/streaming/${safeTitle}/${isMovie ? "movie" : "series"}`:`/movies/streaming/${movie.encodeurl}`}
                     className="group relative block will-change-transform"
                   >
                     {console.log(movie)}
