@@ -115,7 +115,7 @@ export default function IndoMoviesPage() {
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-12">
               {IndoMovies.map((movie) => (
                 <a
-                  href={`/movies/streaming/${movie.encodeUrl}`}
+                  href={`/movies/streaming/${movie.encodeurl}`}
                   key={movie.id}
                   className="group relative block"
                 >
