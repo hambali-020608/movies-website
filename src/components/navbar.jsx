@@ -89,12 +89,12 @@ export default function NavBar({source = 'filmapik'}) {
               <FiClock size={18} className="relative" />
               <span className="relative font-medium">Terbaru</span>
             </a>
-            <a 
+            {/* <a 
               href="/ny21-indo" 
               className="px-5 py-2.5 text-slate-300 hover:text-blue-400 flex items-center space-x-2 transition-all duration-300 rounded-lg hover:bg-slate-800/50 font-medium"
             >
               <span>FilmIndo</span>
-            </a>
+            </a> */}
           </div>
 
           {/* Mobile Menu Button */}
@@ -154,13 +154,13 @@ export default function NavBar({source = 'filmapik'}) {
                 <FiClock size={20} />
                 <span className="font-medium">Terbaru</span>
               </a>
-              <a 
+              {/* <a 
                 href="/ny21-indo" 
                 className="flex items-center space-x-3 px-4 py-3 text-slate-300 hover:text-blue-400 hover:bg-slate-800/50 rounded-lg transition-all"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 <span className="font-medium">FilmIndo</span>
-              </a>
+              </a> */}
             </div>
           </div>
         )}
