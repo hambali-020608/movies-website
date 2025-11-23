@@ -58,8 +58,8 @@ export default function SearchResult() {
         const uniqueResults = combinedResults.filter((movie, index, self) =>
             index === self.findIndex((t) => (t.title === movie.title))
         );
-        setMovies(uniqueResults);
-        if (uniqueResults.length > 0) {
+        setMovies(combinedResults);
+        if (combinedResults.length > 0) {
           setStatus("success");
         }
       } catch (err) {
